@@ -39,8 +39,8 @@ def index():
                 norm_col = col + "_N"
 
                 result[norm_col] = (
-                    students[col].astype(float) / max_mark
-                ) * norm_mark
+                    (students[col].astype(float) / max_mark) * norm_mark
+                ).round(2)
 
                 co = col.split("_")[1]
 
@@ -50,16 +50,16 @@ def index():
                     co_totals[co] += result[norm_col]
 
         for co in co_totals:
-            result[co] = co_totals[co]
+            result[co] = co_totals[co].round(2)
 
         # CO SUMMARY
         summary = pd.DataFrame({
             "CO": co_totals.keys(),
-            "Average": [co_totals[c].mean() for c in co_totals],
-            "Highest": [co_totals[c].max() for c in co_totals],
-            "Lowest": [co_totals[c].min() for c in co_totals]
+            "Average": [round(co_totals[c].mean(),2) for c in co_totals],
+            "Highest": [round(co_totals[c].max(),2) for c in co_totals],
+            "Lowest": [round(co_totals[c].min(),2) for c in co_totals]
         })
-
+        
         # CHART
         chart_path = "static/chart.png"
         plt.figure()
