@@ -3,22 +3,53 @@
 
 <head>
 <title>Internal Marks Processor</title>
+
 <style>
+
+body{
+font-family: Arial;
+margin:40px;
+}
+
 table, th, td {
 border:1px solid black;
 border-collapse: collapse;
 padding:6px;
 }
+
+button{
+padding:8px 16px;
+margin-top:10px;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<h2>Internal Marks Tool</h2>
+<h2>Internal Marks Processing Tool</h2>
+
+<h3>Step 1 — Download Template</h3>
+
+<p>Download the Excel template, fill student marks, then upload it.</p>
+
+<a href="/download-template">
+<button>Download Excel Template</button>
+</a>
+
+<hr>
+
+<h3>Step 2 — Upload Completed File</h3>
 
 <form method="POST" enctype="multipart/form-data">
-<input type="file" name="file" required>
-<button type="submit">Process</button>
+
+<input type="file" name="file" accept=".xlsx" required>
+
+<br><br>
+
+<button type="submit">Upload & Process</button>
+
 </form>
 
 {% if table %}
@@ -30,7 +61,8 @@ padding:6px;
 
 {% if chart %}
 
-<h3>CO Chart</h3>
+<h3>CO Average Chart</h3>
+
 <img src="{{ chart }}" width="500">
 
 {% endif %}
@@ -38,8 +70,9 @@ padding:6px;
 {% if download %}
 
 <br><br>
+
 <a href="/download?file={{download}}">
-<button>Download Excel</button>
+<button>Download Result Excel</button>
 </a>
 
 {% endif %}

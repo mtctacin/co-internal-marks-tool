@@ -95,3 +95,7 @@ def download():
 
 if __name__ == "__main__":
     app.run()
+
+@app.route("/download-template")
+def download_template():
+    return send_file("static/marks_template.xlsx", as_attachment=True)
