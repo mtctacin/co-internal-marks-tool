@@ -28,44 +28,61 @@ def index():
         result = students[["RegNo","Name"]].copy()
 
         co_totals = {}
+        co_max_marks = {}
 
         for col in students.columns:
 
             if "_CO" in col:
 
-                max_mark = max_row[col]
-                norm_mark = norm_row[col]
+            max_mark = max_row[col]
+            norm_mark = norm_row[col]
 
-                norm_col = col + "_N"
+            norm_col = col + "_N"
 
-                result[norm_col] = (
-                    (students[col].astype(float) / max_mark) * norm_mark
-                ).round(2)
+            result[norm_col] = (
+                (students[col].astype(float) / max_mark) * norm_mark
+            ).round(2)
 
-                co = col.split("_")[1]
+            co = col.split("_")[1]
 
-                if co not in co_totals:
-                    co_totals[co] = result[norm_col]
-                else:
-                    co_totals[co] += result[norm_col]
+            if co not in co_totals:
+
+                co_totals[co] = result[norm_col]
+                co_max_marks[co] = norm_mark
+
+            else:
+
+                co_totals[co] += result[norm_col]
+                co_max_marks[co] += norm_mark
 
         for co in co_totals:
             result[co] = co_totals[co].round(2)
 
         # CO SUMMARY
         summary = pd.DataFrame({
-            "CO": co_totals.keys(),
+            "CO": list(co_totals.keys()),
+            "Max Marks": [co_max_marks[c] for c in co_totals],
             "Average": [round(co_totals[c].mean(),2) for c in co_totals],
             "Highest": [round(co_totals[c].max(),2) for c in co_totals],
             "Lowest": [round(co_totals[c].min(),2) for c in co_totals]
         })
         
         # CHART
-        chart_path = "static/chart.png"
         plt.figure()
-        plt.bar(summary["CO"], summary["Average"])
+
+        x = summary["CO"]
+        avg = summary["Average"]
+        max_marks = summary["Max Marks"]
+
+        plt.bar(x, avg)
+
+        for i in range(len(x)):
+            plt.text(i, avg[i] + 0.2, f"{avg[i]}/{max_marks[i]}", ha='center')
+
         plt.ylabel("Average Marks")
-        plt.title("CO Average Marks")
+        plt.title("CO Performance (Average / Max)")
+
+        chart_path = "static/chart.png"
         plt.savefig(chart_path)
         plt.close()
 
