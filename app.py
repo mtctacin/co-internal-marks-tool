@@ -34,26 +34,26 @@ def index():
 
             if "_CO" in col:
 
-            max_mark = max_row[col]
-            norm_mark = norm_row[col]
+                max_mark = max_row[col]
+                norm_mark = norm_row[col]
 
-            norm_col = col + "_N"
+                norm_col = col + "_N"
 
-            result[norm_col] = (
-                (students[col].astype(float) / max_mark) * norm_mark
-            ).round(2)
+                result[norm_col] = (
+                    (students[col].astype(float) / max_mark) * norm_mark
+                ).round(2)
 
-            co = col.split("_")[1]
+                co = col.split("_")[1]
 
-            if co not in co_totals:
+                if co not in co_totals:
 
-                co_totals[co] = result[norm_col]
-                co_max_marks[co] = norm_mark
+                    co_totals[co] = result[norm_col]
+                    co_max_marks[co] = norm_mark
 
-            else:
+                else:
 
-                co_totals[co] += result[norm_col]
-                co_max_marks[co] += norm_mark
+                    co_totals[co] += result[norm_col]
+                    co_max_marks[co] += norm_mark
 
         for co in co_totals:
             result[co] = co_totals[co].round(2)
