@@ -69,9 +69,6 @@ Student-wise normalized marks for all components.
 | CO | Avg | Highest | Lowest | Max Marks |
 | -- | --- | ------- | ------ | --------- |
 
-### Sheet 3 — Charts
-
-Graphical representation of **CO performance**.
 
 ---
 
