@@ -2,27 +2,47 @@
 <html>
 
 <head>
-<title>CO Internal Marks Normaliser</title>
+<title>Internal Marks Processor</title>
+<style>
+table, th, td {
+border:1px solid black;
+border-collapse: collapse;
+padding:6px;
+}
+</style>
 </head>
 
 <body>
 
-<h2>CO Internal Marks Normalisation Tool</h2>
-
-<p>Upload Excel file containing CCA components mapped to COs and their Max marks</p>
+<h2>Internal Marks Tool</h2>
 
 <form method="POST" enctype="multipart/form-data">
-
-<input type="file" name="file" accept=".xlsx" required>
-
-<br><br>
-
-<button type="submit">Upload & Generate CO Marks</button>
-
+<input type="file" name="file" required>
+<button type="submit">Process</button>
 </form>
 
-<p>Output: CO marks normalised to 10</p>
+{% if table %}
+
+<h3>Student Marks</h3>
+{{ table|safe }}
+
+{% endif %}
+
+{% if chart %}
+
+<h3>CO Chart</h3>
+<img src="{{ chart }}" width="500">
+
+{% endif %}
+
+{% if download %}
+
+<br><br>
+<a href="/download?file={{download}}">
+<button>Download Excel</button>
+</a>
+
+{% endif %}
 
 </body>
-
 </html>
