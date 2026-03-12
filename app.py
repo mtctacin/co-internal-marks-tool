@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, send_from_directory
 import pandas as pd
 import matplotlib.pyplot as plt
 import uuid
@@ -111,8 +111,12 @@ def download():
     return send_file(path, as_attachment=True)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
 
 @app.route("/download-template")
 def download_template():
-    return send_file("static/marks_template.xlsx", as_attachment=True)
+    return send_from_directory(
+        "static/templates",
+        "marks_template.xlsx",
+        as_attachment=True
+    )

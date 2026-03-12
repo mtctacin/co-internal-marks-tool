@@ -2,13 +2,18 @@
 "name": "CCA Marks Normalization Tool",
 "image": "mcr.microsoft.com/devcontainers/python:3.11",
 
-"features": {
-"ghcr.io/devcontainers/features/git:1": {}
-},
+"forwardPorts": [5000],
 
 "postCreateCommand": "pip install -r requirements.txt",
 
-"forwardPorts": [8000, 5000],
+"postStartCommand": "python app.py",
+
+"portsAttributes": {
+"5000": {
+"label": "CCA Marks Tool",
+"onAutoForward": "openBrowser"
+}
+},
 
 "customizations": {
 "vscode": {
