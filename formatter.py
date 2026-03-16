@@ -48,31 +48,49 @@ def normalize_marks(file_path):
     return normalized, co_columns, eval_list, max_marks
 
 
+
 def generate_part_tables(df, co_columns):
 
+    # ---------- PART II ----------
+    
     part2 = df.copy()
 
     part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1)
 
-    part1 = df.copy()
-
-    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1)
-
-    part1.insert(0, "SL. No.", range(1, len(part1)+1))
     part2.insert(0, "SL. No.", range(1, len(part2)+1))
-
-    part1.rename(columns={
-        "RegNo":"Register Number",
-        "Name":"Name of the Student"
-    }, inplace=True)
 
     part2.rename(columns={
         "RegNo":"Register Number",
         "Name":"Name of the Student"
     }, inplace=True)
 
-    return part1, part2
+    # Rename CO columns
+    for co in co_columns:
+        part2.rename(columns={
+            co:f"Marks Obtained in {co}"
+        }, inplace=True)
 
+    # ---------- PART I ----------
+
+    part1 = df.copy()
+
+    part1.insert(0, "SL. No.", range(1, len(part1)+1))
+
+    part1.rename(columns={
+        "RegNo":"Register Number",
+        "Name":"Name of the Student"
+    }, inplace=True)
+
+    # Add total
+    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1)
+
+    # Rename CO columns
+    for co in co_columns:
+        part1.rename(columns={
+            co:f"Marks Obtained in {co}"
+        }, inplace=True)
+
+    return part1, part2
 
 def export_excel(part1, part2, co_columns, eval_methods, max_marks,
                  college, course_code, semester, year,

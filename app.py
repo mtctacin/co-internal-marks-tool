@@ -56,11 +56,16 @@ def process():
         output_file
     )
 
-    return render_template(
-        "preview.html",
-        part1=part1_df.to_html(index=False),
-        part2=part2_df.to_html(index=False)
-    )
+return render_template(
+    "preview.html",
+    part1=part1_df.to_html(index=False),
+    part2=part2_df.to_html(index=False),
+    college=college,
+    course_code=course_code,
+    course_name=course_name,
+    semester=semester,
+    year=year
+)
 
 
 @app.route("/download")
