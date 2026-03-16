@@ -21,7 +21,6 @@ def normalize_marks(file_path):
             comp, co = col.split("_")
 
             co_map.setdefault(co, []).append(col)
-
             eval_methods.setdefault(co, []).append(comp)
 
     co_columns = sorted(co_map.keys())
@@ -49,96 +48,37 @@ def normalize_marks(file_path):
     return normalized, co_columns, eval_list, max_marks
 
 
-def generate_mgu_cca(df, co_columns, eval_methods, max_marks,
-                     college, course_code, semester, year,
-                     course_name, output_file):
+def generate_part_tables(df, co_columns):
 
-    wb = Workbook()
+    part2 = df.copy()
 
-    ws1 = wb.active
-    ws1.title = "CCA Form A Part I"
+    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1)
 
-    ws2 = wb.create_sheet("CCA Form A Part II")
+    part1 = df.copy()
 
-    # ---------- HEADER ----------
+    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1)
 
-    ws1["A1"] = "MAHATMA GANDHI UNIVERSITY, KOTTAYAM"
-    ws2["A1"] = "MAHATMA GANDHI UNIVERSITY, KOTTAYAM"
+    part1.insert(0, "SL. No.", range(1, len(part1)+1))
+    part2.insert(0, "SL. No.", range(1, len(part2)+1))
 
-    ws1["A2"] = "Name of the College:"
-    ws1["C2"] = college
-    ws1["K2"] = "Academic Year"
-    ws1["L2"] = year
+    part1.rename(columns={
+        "RegNo":"Register Number",
+        "Name":"Name of the Student"
+    }, inplace=True)
 
-    ws2["A2"] = "Name of the College:"
-    ws2["C2"] = college
-    ws2["K2"] = "Academic Year"
-    ws2["L2"] = year
+    part2.rename(columns={
+        "RegNo":"Register Number",
+        "Name":"Name of the Student"
+    }, inplace=True)
 
-    ws1["A3"] = "Course Code:"
-    ws1["C3"] = course_code
-    ws1["H3"] = "Name of the Course:"
-    ws1["K3"] = course_name
+    return part1, part2
 
-    ws2["A3"] = "Course Code:"
-    ws2["C3"] = course_code
-    ws2["H3"] = "Name of the Course:"
-    ws2["K3"] = course_name
 
-    ws1["A4"] = "Semester:"
-    ws1["C4"] = semester
+def export_excel(part1, part2, co_columns, eval_methods, max_marks,
+                 college, course_code, semester, year,
+                 course_name, output_file):
 
-    ws2["A4"] = "Semester:"
-    ws2["C4"] = semester
+    with pd.ExcelWriter(output_file) as writer:
 
-    ws1["H4"] = "Number of Course Outcomes:"
-    ws1["L4"] = len(co_columns)
-
-    ws2["H4"] = "Number of Course Outcomes:"
-    ws2["L4"] = len(co_columns)
-
-    ws1["H5"] = "Total Number of Students Enrolled for this Course:"
-    ws1["L5"] = len(df)
-
-    ws2["H5"] = "Total Number of Students Enrolled for this Course:"
-    ws2["L5"] = len(df)
-
-    # ---------- CO HEADER ----------
-
-    start_col = 4
-
-    ws2.cell(row=6, column=1).value = "CO Number"
-    ws2.cell(row=7, column=1).value = "Evaluation Method(s) Used"
-    ws2.cell(row=8, column=1).value = "Maximum Marks Allocated"
-
-    for i, co in enumerate(co_columns):
-
-        ws2.cell(row=6, column=start_col+i).value = co
-        ws2.cell(row=7, column=start_col+i).value = eval_methods[i]
-        ws2.cell(row=8, column=start_col+i).value = max_marks[i]
-
-    ws2.cell(row=6, column=start_col+len(co_columns)).value = "Total Marks Allocated for CCA"
-    ws2.cell(row=8, column=start_col+len(co_columns)).value = sum(max_marks)
-
-    # ---------- STUDENTS ----------
-
-    start_row = 10
-
-    for i, row in df.iterrows():
-
-        r = start_row + i
-
-        ws1.cell(r,1).value = i+1
-        ws1.cell(r,2).value = row["RegNo"]
-        ws1.cell(r,3).value = row["Name"]
-
-        ws2.cell(r,1).value = i+1
-        ws2.cell(r,2).value = row["RegNo"]
-        ws2.cell(r,3).value = row["Name"]
-
-        for j, co in enumerate(co_columns):
-
-            ws1.cell(r,6+(2*j)).value = row[co]
-            ws2.cell(r,4+j).value = row[co]
-
-    wb.save(output_file)
+        part1.to_excel(writer, sheet_name="CCA Form A Part I", index=False)
+        part2.to_excel(writer, sheet_name="CCA Form A Part II", index=False)
