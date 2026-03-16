@@ -56,17 +56,17 @@ def process():
         output_file
     )
     
+    part1_df, part2_df = generate_part_tables(normalized_df, co_columns)
     return render_template(
-    "preview.html",
-    part1=part1_df.to_html(index=False),
-    part2=part2_df.to_html(index=False),
-    college=college,
-    course_code=course_code,
-    course_name=course_name,
-    semester=semester,
-    year=year
+        "preview.html",
+        normalized=normalized_df.to_html(index=False),
+        part2=part2_df.to_html(index=False),
+        college=college,
+        course_code=course_code,
+        course_name=course_name,
+        semester=semester,
+        year=year
 	)
-
 
 @app.route("/download")
 def download():
