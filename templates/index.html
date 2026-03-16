@@ -2,93 +2,63 @@
 <html>
 
 <head>
-<title>Internal / CCA Form Preparation Tool for OBE Based Courses</title>
+<title>CCA Marks Normalization Tool</title>
 
 <style>
-
 body{
-font-family: Arial;
+font-family:Arial;
 margin:40px;
+background:#f5f5f5;
 }
 
-table, th, td {
-border:1px solid black;
-border-collapse: collapse;
-padding:6px;
+.container{
+background:white;
+padding:30px;
+width:500px;
+border-radius:8px;
 }
 
-button{
-padding:8px 16px;
+input,button{
+width:100%;
+padding:10px;
 margin-top:10px;
 }
-
 </style>
 
 </head>
 
 <body>
 
-<h2>Internal / CCA Form Preparation Tool for OBE Based Courses</h2>
+<div class="container">
 
-<p>This tool assists in preparing Internal / Continuous Comprehensive Assessment (CCA) forms for courses that contain multiple Course Outcomes (COs) and several formative or summative assessment components mapped to those COs.
-<br>
-<br>In practice, many assessments are conducted for higher raw marks (for example, a test conducted for 30 marks), while the CCA format may require the marks to be entered in a smaller normalized scale (for example, 4 marks).
-<br>
-<br>This tool automatically:
-<br>
-<br>• Normalizes marks from the original assessment scale to the required CCA scale
-<br>• Handles multiple COs and multiple components per CO
-<br>• Processes student marks in bulk
-<br>• Generates the final normalized marks in a format ready for entry into the CCA form
-<br>
-<br>The output can be used directly while preparing the final CCA statement, reducing manual calculation errors and saving time.</p>
+<h2>CCA Marks Tool</h2>
 
-<h3>Step 1 — Download Template</h3>
-
-<p>Download the Excel template, fill student marks, then upload it.</p>
-
-<a class="btn btn-primary" href="/download-template">
-Download Template
+<a href="/download-template">
+<button>Download Marks Template</button>
 </a>
 
 <hr>
 
-<h3>Step 2 — Upload Completed File</h3>
+<form action="/process" method="post" enctype="multipart/form-data">
 
-<form method="POST" enctype="multipart/form-data">
+<input name="college" placeholder="College Name" required>
 
-<input type="file" name="file" accept=".xlsx" required>
+<input name="course_code" placeholder="Course Code" required>
 
-<br><br>
+<input name="course_name" placeholder="Course Name" required>
 
-<button type="submit">Upload & Process</button>
+<input name="semester" placeholder="Semester" required>
+
+<input name="year" placeholder="Academic Year" required>
+
+<label>Upload Filled Template</label>
+<input type="file" name="marks_file" required>
+
+<button type="submit">Generate CCA Form</button>
 
 </form>
 
-{% if table %}
-
-<h3>Student Marks</h3>
-{{ table|safe }}
-
-{% endif %}
-
-{% if chart %}
-
-<h3>CO Average Chart</h3>
-
-<img src="{{ chart }}" width="500">
-
-{% endif %}
-
-{% if download %}
-
-<br><br>
-
-<a href="/download?file={{download}}">
-<button>Download Result Excel</button>
-</a>
-
-{% endif %}
+</div>
 
 </body>
 </html>
