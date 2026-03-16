@@ -65,7 +65,7 @@ return render_template(
     course_name=course_name,
     semester=semester,
     year=year
-)
+	)
 
 
 @app.route("/download")
