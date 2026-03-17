@@ -1,5 +1,6 @@
 import pandas as pd
-from openpyxl import Workbook
+from reportlab.platypus import SimpleDocTemplate, Table
+from reportlab.lib.pagesizes import A4
 
 
 def normalize_marks(file_path):
@@ -36,7 +37,6 @@ def normalize_marks(file_path):
         total = 0
 
         for col in co_map[co]:
-
             total += (students[col] / raw_max[col]) * norm_max[col]
 
         normalized[co] = total.round(2)
@@ -48,14 +48,11 @@ def normalize_marks(file_path):
     return normalized, co_columns, eval_list, max_marks
 
 
-
 def generate_part_tables(df, co_columns):
 
-    # ---------- PART II ----------
-    
     part2 = df.copy()
 
-    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1)
+    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1).round(2)
 
     part2.insert(0, "SL. No.", range(1, len(part2)+1))
 
@@ -64,13 +61,8 @@ def generate_part_tables(df, co_columns):
         "Name":"Name of the Student"
     }, inplace=True)
 
-    # Rename CO columns
     for co in co_columns:
-        part2.rename(columns={
-            co:f"Marks Obtained in {co}"
-        }, inplace=True)
-
-    # ---------- PART I ----------
+        part2.rename(columns={co:f"Marks Obtained in {co}"}, inplace=True)
 
     part1 = df.copy()
 
@@ -81,22 +73,31 @@ def generate_part_tables(df, co_columns):
         "Name":"Name of the Student"
     }, inplace=True)
 
-    # Add total
-    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1)
+    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1).round(2)
 
-    # Rename CO columns
     for co in co_columns:
-        part1.rename(columns={
-            co:f"Marks Obtained in {co}"
-        }, inplace=True)
+        part1.rename(columns={co:f"Marks Obtained in {co}"}, inplace=True)
 
     return part1, part2
 
-def export_excel(part1, part2, co_columns, eval_methods, max_marks,
-                 college, course_code, semester, year,
-                 course_name, output_file):
+
+def export_excel(part1, part2, output_file):
 
     with pd.ExcelWriter(output_file) as writer:
 
         part1.to_excel(writer, sheet_name="CCA Form A Part I", index=False)
         part2.to_excel(writer, sheet_name="CCA Form A Part II", index=False)
+
+
+def export_pdf(part2_df, output_file):
+
+    data = [list(part2_df.columns)]
+
+    for _, row in part2_df.iterrows():
+        data.append(list(row))
+
+    pdf = SimpleDocTemplate(output_file, pagesize=A4)
+
+    table = Table(data)
+
+    pdf.build([table])

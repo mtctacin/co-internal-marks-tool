@@ -1,7 +1,7 @@
 Flask
-flask
 pandas
 openpyxl
 xlsxwriter
 matplotlib
 gunicorn
+reportlab
