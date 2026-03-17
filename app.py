@@ -4,7 +4,7 @@ import os
 from formatter import (
     normalize_marks,
     generate_part_tables,
-    export_excel,
+    export_excel_template,
     export_pdf
 )
 
