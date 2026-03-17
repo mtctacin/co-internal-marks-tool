@@ -1,4 +1,5 @@
 import pandas as pd
+from openpyxl import load_workbook
 from reportlab.platypus import SimpleDocTemplate, Table
 from reportlab.lib.pagesizes import A4
 
@@ -52,41 +53,103 @@ def generate_part_tables(df, co_columns):
 
     part2 = df.copy()
 
-    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1).round(0)
+    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1).round(2)
 
     part2.insert(0, "SL. No.", range(1, len(part2)+1))
 
     part2.rename(columns={
-        "RegNo":"Register Number",
-        "Name":"Name of the Student"
+        "RegNo": "Register Number",
+        "Name": "Name of the Student"
     }, inplace=True)
 
     for co in co_columns:
-        part2.rename(columns={co:f"Marks Obtained in {co}"}, inplace=True)
+        part2.rename(columns={co: f"Marks Obtained in {co}"}, inplace=True)
 
     part1 = df.copy()
 
     part1.insert(0, "SL. No.", range(1, len(part1)+1))
 
     part1.rename(columns={
-        "RegNo":"Register Number",
-        "Name":"Name of the Student"
+        "RegNo": "Register Number",
+        "Name": "Name of the Student"
     }, inplace=True)
 
-    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1).round(0)
+    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1).round(2)
 
     for co in co_columns:
-        part1.rename(columns={co:f"Marks Obtained in {co}"}, inplace=True)
+        part1.rename(columns={co: f"Marks Obtained in {co}"}, inplace=True)
 
     return part1, part2
 
 
-def export_excel(part1, part2, output_file):
+def export_excel_template(
+    part1,
+    part2,
+    college,
+    course_code,
+    course_name,
+    semester,
+    year,
+    template_path,
+    output_file
+):
 
-    with pd.ExcelWriter(output_file) as writer:
+    wb = load_workbook(template_path)
 
-        part1.to_excel(writer, sheet_name="CCA Form A Part I", index=False)
-        part2.to_excel(writer, sheet_name="CCA Form A Part II", index=False)
+    ws1 = wb["CCA Form A Part I"]
+    ws2 = wb["CCA Form A Part II"]
+
+    # ---------- HEADER ----------
+    ws1["C2"] = college
+    ws1["L2"] = year
+    ws1["C3"] = course_code
+    ws1["K3"] = course_name
+    ws1["C4"] = semester
+
+    ws2["C2"] = college
+    ws2["L2"] = year
+    ws2["C3"] = course_code
+    ws2["K3"] = course_name
+    ws2["C4"] = semester
+
+    # ---------- PART I DATA ----------
+    start_row = 10
+
+    for i, row in part1.iterrows():
+
+        r = start_row + i
+
+        ws1.cell(r,1,row["SL. No."])
+        ws1.cell(r,2,row["Register Number"])
+        ws1.cell(r,3,row["Name of the Student"])
+
+        col_index = 4
+
+        for col in part1.columns[3:]:
+
+            ws1.cell(r,col_index,row[col])
+            col_index += 1
+
+    # ---------- PART II DATA ----------
+
+    start_row = 10
+
+    for i, row in part2.iterrows():
+
+        r = start_row + i
+
+        ws2.cell(r,1,row["SL. No."])
+        ws2.cell(r,2,row["Register Number"])
+        ws2.cell(r,3,row["Name of the Student"])
+
+        col_index = 4
+
+        for col in part2.columns[3:]:
+
+            ws2.cell(r,col_index,row[col])
+            col_index += 1
+
+    wb.save(output_file)
 
 
 def export_pdf(part2_df, output_file):

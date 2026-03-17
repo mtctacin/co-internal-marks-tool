@@ -48,7 +48,17 @@ def process():
     excel_file = os.path.join(OUTPUT_FOLDER, "MGU_CCA_Output.xlsx")
     pdf_file = os.path.join(OUTPUT_FOLDER, "MGU_CCA_Output.pdf")
 
-    export_excel(part1_df, part2_df, excel_file)
+    export_excel_template(
+    part1_df,
+    part2_df,
+    college,
+    course_code,
+    course_name,
+    semester,
+    year,
+    "static/mgu_cca_template.xlsx",
+    excel_file
+	)
     export_pdf(part2_df, pdf_file)
 
     return render_template(
