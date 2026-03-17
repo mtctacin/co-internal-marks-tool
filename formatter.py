@@ -52,7 +52,7 @@ def generate_part_tables(df, co_columns):
 
     part2 = df.copy()
 
-    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1).round(2)
+    part2["Total Marks Obtained in CCA"] = part2[co_columns].sum(axis=1).round(0)
 
     part2.insert(0, "SL. No.", range(1, len(part2)+1))
 
@@ -73,7 +73,7 @@ def generate_part_tables(df, co_columns):
         "Name":"Name of the Student"
     }, inplace=True)
 
-    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1).round(2)
+    part1["Total Marks Obtained in CCA"] = part1[co_columns].sum(axis=1).round(0)
 
     for co in co_columns:
         part1.rename(columns={co:f"Marks Obtained in {co}"}, inplace=True)
