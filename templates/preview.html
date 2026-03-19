@@ -48,6 +48,16 @@ justify-content:space-between;
   width: 50%;
   margin-bottom: 8px;
 }
+
+@media print {
+  #table1-section {
+    display: none;
+  }
+
+  button {
+    display: none;
+  }
+}
 </style>
 
 </head>
@@ -143,6 +153,19 @@ justify-content:space-between;
 </div>
 
 <!-- TABLE 1 AT BOTTOM -->
+<button onclick="downloadPDF()" style="margin-top:20px; padding:8px 16px; font-size:14px;">
+Download as PDF
+</button>
+
+<script>
+function downloadPDF() {
+    window.print();
+}
+</script>
+<div id="table1-section">
+<h3>Normalized Marks (Component-wise)</h3>
+{{table1|safe}}
+</div>
 <h3>Normalized Marks (Component-wise)</h3>
 
 {{table1|safe}}
