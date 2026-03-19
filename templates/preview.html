@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>Results</title>
+<title>CCA Output</title>
 
 <style>
 
@@ -11,19 +11,38 @@ font-family:Arial;
 margin:40px;
 }
 
+h2{
+text-align:center;
+}
+
+.details{
+margin-bottom:20px;
+}
+
 table{
 border-collapse:collapse;
 width:100%;
-margin-bottom:40px;
+margin-top:20px;
 }
 
 th,td{
-border:1px solid #ccc;
+border:1px solid #000;
 padding:6px;
+text-align:center;
 }
 
 th{
-background:#f2f2f2;
+background:#e6e6e6;
+}
+
+.footer{
+margin-top:40px;
+}
+
+.sign{
+margin-top:60px;
+display:flex;
+justify-content:space-between;
 }
 
 </style>
@@ -32,16 +51,64 @@ background:#f2f2f2;
 
 <body>
 
-<h2>Table 1: Normalized Marks (Assessment-wise)</h2>
+<h2>MAHATMA GANDHI UNIVERSITY, KOTTAYAM</h2>
 
-{{table1|safe}}
+<div class="details">
 
-<hr>
+<b>College Name:</b> {{form.college}} <br>
+<b>Course Code:</b> {{form.course_code}} <br>
+<b>Course Name:</b> {{form.course_name}} <br>
+<b>Academic Year:</b> {{form.year}} <br>
+<b>Semester:</b> {{form.semester}} <br>
+<b>CCA Category:</b> {{form.category}} <br>
+<b>Number of COs:</b> {{num_cos}} <br>
+<b>Number of Students:</b> {{num_students}}
 
-<h2>Table 2: CO-wise Totals and Overall Total</h2>
+</div>
 
-{{table2|safe}}
+<h3>CCA Form A – Part II</h3>
+
+<table>
+
+<tr>
+<th rowspan="2">SL. No.</th>
+<th rowspan="2">Register Number</th>
+<th rowspan="2">Name of the Student</th>
+
+{% for co in co_columns %}
+<th>Marks Obtained in {{co}}</th>
+{% endfor %}
+
+<th rowspan="2">Total Marks Obtained in CCA</th>
+</tr>
+
+<tr>
+{% for m in max_marks %}
+<th>Max: {{m}}</th>
+{% endfor %}
+</tr>
+
+{% for row in table2.split('<tr>')[2:] %}
+<tr>{{ row|safe }}</tr>
+{% endfor %}
+
+</table>
+
+<div class="footer">
+
+<p><b>Certified that,</b><br>
+(1) The entries are verified with the records and there is no error or omission.<br>
+(2) These assessments were published and no grievances are pending.
+</p>
+
+<div class="sign">
+<div>Course Faculty/Course Coordinator</div>
+<div>HoD</div>
+<div>Principal</div>
+<div>College Seal</div>
+</div>
+
+</div>
 
 </body>
-
 </html>
