@@ -2,29 +2,12 @@
 <html>
 
 <head>
-<title>CCA Marks Tool</title>
+<title>CCA Tool</title>
 
 <style>
-
-body{
-font-family:Arial;
-margin:40px;
-background:#f5f5f5;
-}
-
-.container{
-background:white;
-padding:30px;
-width:500px;
-border-radius:8px;
-}
-
-input,button{
-width:100%;
-padding:10px;
-margin-top:10px;
-}
-
+body { font-family: Arial; margin: 40px; }
+.container { width: 500px; }
+input, button { width: 100%; padding: 10px; margin-top: 10px; }
 </style>
 
 </head>
@@ -35,29 +18,12 @@ margin-top:10px;
 
 <h2>CCA Marks Tool</h2>
 
-<a href="/download-template">
-<button>Download Marks Template</button>
-</a>
-
-<hr>
-
 <form action="/process" method="post" enctype="multipart/form-data">
 
-<input name="college" placeholder="College Name" required>
-
-<input name="course_code" placeholder="Course Code" required>
-
-<input name="course_name" placeholder="Course Name" required>
-
-<input name="semester" placeholder="Semester" required>
-
-<input name="year" placeholder="Academic Year" required>
-
-<label>Upload Filled Template</label>
-
+<label>Upload Marks Template</label>
 <input type="file" name="marks_file" required>
 
-<button type="submit">Generate CCA Form</button>
+<button type="submit">Process</button>
 
 </form>
 

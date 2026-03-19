@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>CCA Preview</title>
+<title>Results</title>
 
 <style>
 
@@ -26,49 +26,21 @@ th{
 background:#f2f2f2;
 }
 
-button{
-padding:10px;
-font-size:16px;
-margin-right:10px;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<h2>MAHATMA GANDHI UNIVERSITY, KOTTAYAM</h2>
+<h2>Table 1: Normalized Marks (Assessment-wise)</h2>
 
-<p>
-<strong>Name of the College:</strong> {{college}} <br>
-<strong>Course Code:</strong> {{course_code}} <br>
-<strong>Name of the Course:</strong> {{course_name}} <br>
-<strong>Semester:</strong> {{semester}} <br>
-<strong>Academic Year:</strong> {{year}}
-</p>
+{{table1|safe}}
 
 <hr>
 
-<h3>Normalized Marks</h3>
+<h2>Table 2: CO-wise Totals and Overall Total</h2>
 
-{{normalized|safe}}
-
-<hr>
-
-<h3>CCA Form A – Part II</h3>
-
-{{part2|safe}}
-
-<br>
-
-<a href="/download">
-<button>Download Excel (Part I + Part II)</button>
-</a>
-
-<a href="/download_pdf">
-<button>Download PDF (Part II)</button>
-</a>
+{{table2|safe}}
 
 </body>
 
