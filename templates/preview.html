@@ -15,14 +15,10 @@ h2{
 text-align:center;
 }
 
-.details{
-margin-bottom:20px;
-}
-
 table{
 border-collapse:collapse;
 width:100%;
-margin-top:20px;
+margin-top:15px;
 }
 
 th,td{
@@ -33,10 +29,6 @@ text-align:center;
 
 th{
 background:#e6e6e6;
-}
-
-.footer{
-margin-top:40px;
 }
 
 .sign{
@@ -53,8 +45,7 @@ justify-content:space-between;
 
 <h2>MAHATMA GANDHI UNIVERSITY, KOTTAYAM</h2>
 
-<div class="details">
-
+<p>
 <b>College Name:</b> {{form.college}} <br>
 <b>Course Code:</b> {{form.course_code}} <br>
 <b>Course Name:</b> {{form.course_name}} <br>
@@ -63,38 +54,65 @@ justify-content:space-between;
 <b>CCA Category:</b> {{form.category}} <br>
 <b>Number of COs:</b> {{num_cos}} <br>
 <b>Number of Students:</b> {{num_students}}
-
-</div>
+</p>
 
 <h3>CCA Form A – Part II</h3>
 
+<!-- CO Header Table -->
 <table>
 
 <tr>
-<th rowspan="2">SL. No.</th>
-<th rowspan="2">Register Number</th>
-<th rowspan="2">Name of the Student</th>
+<th>CO Number</th>
+{% for co in co_columns %}
+<th>{{co}}</th>
+{% endfor %}
+<th>Total Marks Allocated for CCA</th>
+</tr>
+
+<tr>
+<th>Evaluation Method(s) Used</th>
+{% for e in eval_list %}
+<td>{{e}}</td>
+{% endfor %}
+<td></td>
+</tr>
+
+<tr>
+<th>Maximum Marks Allocated</th>
+{% for m in max_marks %}
+<td>{{m}}</td>
+{% endfor %}
+<td>{{total_cca_max}}</td>
+</tr>
+
+</table>
+
+<!-- STUDENT TABLE -->
+<table>
+
+<tr>
+<th>SL. No.</th>
+<th>Register Number</th>
+<th>Name of the Student</th>
 
 {% for co in co_columns %}
 <th>Marks Obtained in {{co}}</th>
 {% endfor %}
 
-<th rowspan="2">Total Marks Obtained in CCA</th>
+<th>Total Marks Obtained in CCA</th>
 </tr>
 
+{% for row in table2.values.tolist() %}
 <tr>
-{% for m in max_marks %}
-<th>Max: {{m}}</th>
+{% for cell in row %}
+<td>{{cell}}</td>
 {% endfor %}
 </tr>
-
-{% for row in table2.split('<tr>')[2:] %}
-<tr>{{ row|safe }}</tr>
 {% endfor %}
 
 </table>
 
-<div class="footer">
+<br>
 
 <p><b>Certified that,</b><br>
 (1) The entries are verified with the records and there is no error or omission.<br>
@@ -108,7 +126,11 @@ justify-content:space-between;
 <div>College Seal</div>
 </div>
 
-</div>
+<!-- TABLE 1 AT BOTTOM -->
+<h3>Normalized Marks (Component-wise)</h3>
+
+{{table1|safe}}
 
 </body>
+
 </html>
