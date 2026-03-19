@@ -39,22 +39,38 @@ justify-content:space-between;
 
 </style>
 
+<style>
+.info-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.info-item {
+  width: 50%;
+  margin-bottom: 8px;
+}
+</style>
+
 </head>
 
 <body>
 
 <h2>MAHATMA GANDHI UNIVERSITY, KOTTAYAM</h2>
 
-<p>
-<b>College Name:</b> {{form.college}} <br>
-<b>Course Code:</b> {{form.course_code}} <br>
-<b>Course Name:</b> {{form.course_name}} <br>
-<b>Academic Year:</b> {{form.year}} <br>
-<b>Semester:</b> {{form.semester}} <br>
-<b>CCA Category:</b> {{form.category}} <br>
-<b>Number of COs:</b> {{num_cos}} <br>
-<b>Number of Students:</b> {{num_students}}
-</p>
+
+
+<div class="info-container">
+  <div class="info-item"><b>College Name:</b> {{form.college}}</div>
+  <div class="info-item"><b>Course Code:</b> {{form.course_code}}</div>
+
+  <div class="info-item"><b>Course Name:</b> {{form.course_name}}</div>
+  <div class="info-item"><b>Academic Year:</b> {{form.year}}</div>
+
+  <div class="info-item"><b>Semester:</b> {{form.semester}}</div>
+  <div class="info-item"><b>CCA Category:</b> {{form.category}}</div>
+
+  <div class="info-item"><b>Number of COs:</b> {{num_cos}}</div>
+  <div class="info-item"><b>Number of Students:</b> {{num_students}}</div>
+</div>
 
 <h3>CCA Form A – Part II</h3>
 
