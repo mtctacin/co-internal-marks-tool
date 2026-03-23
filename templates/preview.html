@@ -5,56 +5,60 @@
 <title>CCA Output</title>
 
 <style>
-
-body{
-font-family:Arial;
-margin:40px;
+body {
+  font-family: Arial;
+  margin: 40px;
 }
 
-h2{
-text-align:center;
+h2 {
+  text-align: center;
 }
 
-table{
-border-collapse:collapse;
-width:100%;
-margin-top:15px;
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
 }
 
-th,td{
-border:1px solid #000;
-padding:6px;
-text-align:center;
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
 }
 
-th{
-background:#e6e6e6;
+th {
+  background: #2c3e50;
+  color: white;
 }
 
-.sign{
-margin-top:60px;
-display:flex;
-justify-content:space-between;
+/* Zebra rows */
+tr:nth-child(even) td {
+  background-color: #f2f6fc;
 }
 
-</style>
-
-<style>
+/* Info layout */
 .info-container {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 15px;
 }
+
 .info-item {
   width: 50%;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-@media print {
-  #table1-section {
-    display: none;
-  }
+/* Signature */
+.sign {
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+}
 
-  button {
+/* Print settings */
+@media print {
+  button, select, label {
     display: none;
   }
 }
@@ -66,27 +70,35 @@ justify-content:space-between;
 
 <h2>MAHATMA GANDHI UNIVERSITY, KOTTAYAM</h2>
 
-
-
 <div class="info-container">
   <div class="info-item"><b>College Name:</b> {{form.college}}</div>
-  <div class="info-item"><b>Course Code:</b> {{form.course_code}}</div>
-
-  <div class="info-item"><b>Course Name:</b> {{form.course_name}}</div>
   <div class="info-item"><b>Academic Year:</b> {{form.year}}</div>
 
-  <div class="info-item"><b>Semester:</b> {{form.semester}}</div>
-  <div class="info-item"><b>CCA Category:</b> {{form.category}}</div>
+  <div class="info-item"><b>Course Code:</b> {{form.course_code}}</div>
+  <div class="info-item"><b>Course Name:</b> {{form.course_name}}</div>
 
+  <div class="info-item"><b>Semester:</b> {{form.semester}}</div>
   <div class="info-item"><b>Number of COs:</b> {{num_cos}}</div>
+
+  <div class="info-item"><b>CCA Category:</b> {{form.category}}</div>
   <div class="info-item"><b>Number of Students:</b> {{num_students}}</div>
 </div>
 
+<!-- SELECT OPTION -->
+<label><b>Select Section for PDF:</b></label>
+<select id="printOption" style="margin-left:10px; padding:5px;">
+  <option value="part2">Part II (CCA Form A)</option>
+  <option value="part1">Part I (Normalized Marks)</option>
+</select>
+
+<br><br>
+
+<!-- ================= PART II ================= -->
+<div id="part2-section">
+
 <h3>CCA Form A – Part II</h3>
 
-<!-- CO Header Table -->
 <table>
-
 <tr>
 <th>CO Number</th>
 {% for co in co_columns %}
@@ -110,12 +122,9 @@ justify-content:space-between;
 {% endfor %}
 <td>{{total_cca_max}}</td>
 </tr>
-
 </table>
 
-<!-- STUDENT TABLE -->
 <table>
-
 <tr>
 <th>SL. No.</th>
 <th>Register Number</th>
@@ -135,10 +144,7 @@ justify-content:space-between;
 {% endfor %}
 </tr>
 {% endfor %}
-
 </table>
-
-<br>
 
 <p><b>Certified that,</b><br>
 (1) The entries are verified with the records and there is no error or omission.<br>
@@ -146,27 +152,61 @@ justify-content:space-between;
 </p>
 
 <div class="sign">
-<div>Course Faculty/Course Coordinator</div>
-<div>HoD</div>
-<div>Principal</div>
-<div>College Seal</div>
+  <div>Course Faculty/Course Coordinator</div>
+  <div>HoD</div>
+  <div>Principal</div>
+  <div>College Seal</div>
 </div>
 
-<!-- TABLE 1 AT BOTTOM -->
-<button onclick="downloadPDF()" style="margin-top:20px; padding:8px 16px; font-size:14px;">
+</div>
+
+<!-- ================= PART I ================= -->
+<div id="part1-section">
+
+<h3>Normalized Marks (Component-wise)</h3>
+{{table1|safe}}
+
+<p><b>Certified that,</b><br>
+(1) The entries are verified with the records and there is no error or omission.<br>
+(2) These assessments were published and no grievances are pending.
+</p>
+
+<div class="sign">
+  <div>Course Faculty/Course Coordinator</div>
+  <div>HoD</div>
+  <div>Principal</div>
+  <div>College Seal</div>
+</div>
+
+</div>
+
+<!-- BUTTON -->
+<button onclick="downloadPDF()" style="margin-top:20px; padding:8px 16px;">
 Download as PDF
 </button>
 
 <script>
 function downloadPDF() {
-    window.print();
+  let option = document.getElementById("printOption").value;
+
+  let part1 = document.getElementById("part1-section");
+  let part2 = document.getElementById("part2-section");
+
+  if (option === "part1") {
+    part1.style.display = "block";
+    part2.style.display = "none";
+  } else {
+    part1.style.display = "none";
+    part2.style.display = "block";
+  }
+
+  window.print();
+
+  // Restore after printing
+  part1.style.display = "block";
+  part2.style.display = "block";
 }
 </script>
-<div id="table1-section">
-<h3>Normalized Marks (Component-wise)</h3>
-{{table1|safe}}
-</div>
 
 </body>
-
 </html>

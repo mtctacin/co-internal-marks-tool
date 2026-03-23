@@ -14,6 +14,48 @@ margin-top: 10px;
 }
 </style>
 
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+th {
+  background: #2c3e50;
+  color: white;
+  font-weight: bold;
+}
+
+/* Alternate row colors */
+tr:nth-child(even) td {
+  background-color: #f2f6fc;
+}
+
+tr:nth-child(odd) td {
+  background-color: #ffffff;
+}
+
+/* Hover effect (optional but nice) */
+tr:hover td {
+  background-color: #dfe9f3;
+}
+
+/* First two columns slightly highlighted */
+td:nth-child(1),
+td:nth-child(2) {
+  font-weight: 500;
+  background-color: #f9fbfd;
+}
+</style>
+
 </head>
 
 <body>
@@ -22,22 +64,84 @@ margin-top: 10px;
 
 <h2>CCA Marks Tool</h2>
 
-<a href="/download-template">
-<button>Download Marks Template</button>
+<h3>Template Preview</h3>
+<p style="color:gray;">
+Download the template and prepare the Excel file in a similar pattern indicating Assessment items and CO (e.g., Assessment_COx).
+</p>
+
+<table>
+<tr>
+  <th>RegNo</th>
+  <th>Name</th>
+  <th>Test_CO1</th>
+  <th>Assignment_CO1</th>
+  <th>Quiz_CO2</th>
+  <th>Seminar_CO2</th>
+  <th>Quiz_CO3</th>
+  <th>Seminar_CO4</th>
+</tr>
+
+<tr>
+  <td>MAX</td>
+  <td></td>
+  <td>20</td>
+  <td>10</td>
+  <td>15</td>
+  <td>10</td>
+  <td>25</td>
+  <td>10</td>
+</tr>
+
+<tr>
+  <td>Normalised</td>
+  <td></td>
+  <td>3</td>
+  <td>2</td>
+  <td>4</td>
+  <td>2</td>
+  <td>5</td>
+  <td>2</td>
+</tr>
+
+<tr>
+  <td>101</td>
+  <td>Arun</td>
+  <td>14</td>
+  <td>8</td>
+  <td>11</td>
+  <td>9</td>
+  <td>21</td>
+  <td>10</td>
+</tr>
+
+<tr>
+  <td>102</td>
+  <td>Meera</td>
+  <td>18</td>
+  <td>7</td>
+  <td>13</td>
+  <td>8</td>
+  <td>22</td>
+  <td>9</td>
+</tr>
+</table>
+
+
+<a href="/download-template" style="display:inline-block; margin-top:20px;">
+  Download Excel Template
 </a>
 
-<hr>
 
 <form action="/process" method="post" enctype="multipart/form-data">
 
-<input name="college" placeholder="College Name" required>
+<input name="college" placeholder="College Name including Centre Code" required>
 <input name="course_code" placeholder="Course Code" required>
 <input name="course_name" placeholder="Course Name" required>
 <input name="year" placeholder="Academic Year" required>
 <input name="semester" placeholder="Semester" required>
 
 <select name="category" required>
-<option value="">CCA Category</option>
+<option value="">Choose CCA Category</option>
 <option>Theory</option>
 <option>Practical</option>
 </select>

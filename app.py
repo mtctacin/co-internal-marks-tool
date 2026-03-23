@@ -14,15 +14,13 @@ def index():
     return render_template("index.html")
 
 
-# ✅ Download Template
-@app.route("/download-template")
-def download_template():
-    return send_from_directory(
-        os.path.join(app.root_path, "static"),
-        "marks_template.xlsx",
-        as_attachment=True
-    )
+from flask import send_file
+import os
 
+@app.route('/download-template')
+def download_template():
+    path = os.path.join('static', 'template.xlsx')  # adjust path if needed
+    return send_file(path, as_attachment=True)
 
 # ✅ Process File
 @app.route("/process", methods=["POST"])
