@@ -17,8 +17,13 @@ This tool automatically **normalizes the raw marks to the required CCA scale** a
 * Automatically **normalizes marks to the required scale**
 * Reduces **manual calculation errors**
 * Generates **student-wise normalized marks**
-* Provides **summary statistics for each CO**
-* Option to **download the output as Excel**
+* Upload Excel file with student marks  
+* Generate:
+  - **Part I – Normalized Marks (Component-wise)**
+  - **Part II – CCA Form A Report**
+* Clean, printable report format (University style)
+* Download reports as **PDF (via browser print)**
+* Simple and user-friendly interface
 
 ---
 
@@ -52,23 +57,7 @@ Example:
    * Normalize all marks
    * Generate **CO-wise results**
    * Prepare a **CCA-ready format**
-5. Download the processed **Excel report**.
-
----
-
-## Output Sheets
-
-The generated Excel file contains:
-
-### Sheet 1 — Student Marks
-
-Student-wise normalized marks for all components.
-
-### Sheet 2 — CO Summary
-
-| CO | Avg | Highest | Lowest | Max Marks |
-| -- | --- | ------- | ------ | --------- |
-
+5. Download the processed reports as **PDF (via browser print)**.
 
 ---
 
@@ -100,14 +89,11 @@ The tool automatically converts the raw marks to the corresponding **CCA scale**
 * Python
 * Pandas
 * HTML / JavaScript
-* Chart generation for CO analysis
-* Excel export
 
 ---
 
 ## Future Improvements
 
-* Direct **CCA form auto-generation**
 * **Graphical CO attainment analysis**
 * **Batch processing for multiple courses**
 * **PDF report generation**
