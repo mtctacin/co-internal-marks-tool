@@ -19,7 +19,7 @@ import os
 
 @app.route('/download-template')
 def download_template():
-    path = os.path.join('static', 'template.xlsx')  # adjust path if needed
+    path = os.path.join('static', 'marks_template.xlsx')  # adjust path if needed
     return send_file(path, as_attachment=True)
 
 # ✅ Process File
