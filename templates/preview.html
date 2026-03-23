@@ -148,7 +148,7 @@ function downloadPDF() {
 {% for m in max_marks %}
 <td>{{ m | round(0) | int }}</td>
 {% endfor %}
-<td>{{total_cca_max}}</td>
+<td>{{total_cca_max | round(0) | int }}</td>
 </tr>
 </table>
 
