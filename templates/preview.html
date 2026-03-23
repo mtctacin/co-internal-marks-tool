@@ -91,7 +91,35 @@ tr:nth-child(even) td {
   <option value="part1">Part I (Normalized Marks)</option>
 </select>
 
-<br><br>
+<!-- BUTTON -->
+<button onclick="downloadPDF()" style="margin-top:20px; padding:8px 16px;">
+Download as PDF
+</button>
+
+<script>
+function downloadPDF() {
+  let option = document.getElementById("printOption").value;
+
+  let part1 = document.getElementById("part1-section");
+  let part2 = document.getElementById("part2-section");
+
+  if (option === "part1") {
+    part1.style.display = "block";
+    part2.style.display = "none";
+  } else {
+    part1.style.display = "none";
+    part2.style.display = "block";
+  }
+
+  window.print();
+
+  // Restore after printing
+  part1.style.display = "block";
+  part2.style.display = "block";
+}
+</script>
+
+<br>
 
 <!-- ================= PART II ================= -->
 <div id="part2-section">
@@ -180,33 +208,7 @@ tr:nth-child(even) td {
 
 </div>
 
-<!-- BUTTON -->
-<button onclick="downloadPDF()" style="margin-top:20px; padding:8px 16px;">
-Download as PDF
-</button>
 
-<script>
-function downloadPDF() {
-  let option = document.getElementById("printOption").value;
-
-  let part1 = document.getElementById("part1-section");
-  let part2 = document.getElementById("part2-section");
-
-  if (option === "part1") {
-    part1.style.display = "block";
-    part2.style.display = "none";
-  } else {
-    part1.style.display = "none";
-    part2.style.display = "block";
-  }
-
-  window.print();
-
-  // Restore after printing
-  part1.style.display = "block";
-  part2.style.display = "block";
-}
-</script>
 
 </body>
 </html>
